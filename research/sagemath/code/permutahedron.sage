@@ -1,7 +1,9 @@
 from sage.graphs.independent_sets import IndependentSets
 
-n = 3
+n = 4
 permutations = Permutations(n)
+permutahedron = polytopes.permutahedron(n)
+print(permutahedron)
 #for perm in permutations:
 #    print(perm)
 
@@ -97,14 +99,20 @@ def get_degree(perm):
 #degree = get_degree([1, 2, 3, 4, 5, 6, 7])
 #print(degree)
 
+def share_facet4(perm1, perm2):
+    # TODO: I believe facets() returns the whole polytope as well
+    for f in permutahedron.facets():
+        if perm1 in f.vertices() and perm2 in f.vertices():
+            return True
+    return False
+
 def create_graph(vertex_set):
     G = Graph()
     G.add_vertices(vertex_set)
     for i in range(len(vertex_set)):
         for j in range(i + 1, len(vertex_set)):
-            if share_facet3(vertex_set[i], vertex_set[j]) == False:
+            if share_facet4(vertex_set[i], vertex_set[j]) == False:
                 G.add_edge(vertex_set[i], vertex_set[j])
-    
     return G
 
 G = create_graph(permutations)
@@ -126,9 +134,9 @@ ind_num = get_independence_number(G)
 print(ind_num)
 
 #G_bar = G.complement()
-print("Adjacency List of G:")
+'''print("Adjacency List of G:")
 for v in G.vertices():
-    print(f"{v}: {G.neighbors(v)}")
+    print(f"{v}: {G.neighbors(v)}")'''
 
 '''print("Adjacency List of G_bar:")
 for v in G_bar.vertices():
@@ -136,24 +144,13 @@ for v in G_bar.vertices():
 
 #print(get_independence_number(G_bar))
 
-def share_facet3(perm1, perm2):
-    n = len(perm1)
+#for x in permutahedron.vertices():
+#    print(x)
 
-    sigma = {i + 1: perm1[i] for i in range(n)}
-    tau = {i + 1: perm2[i] for i in range(n)}
-
-    from itertools import chain, combinations
-    
-    def all_subsets(iterable):
-        s = list(iterable)
-        return chain.from_iterable(combinations(s, r) for r in range(1, len(s)))
-    
-    for I in all_subsets(range(1, n + 1)):
-        sigma_sum = sum(sigma[i] for i in I)
-        tau_sum = sum(tau[i] for i in I)
-        identity_sum = sum(I)  # Sum in identity permutation
-
-        if sigma_sum == identity_sum == tau_sum:
-            return True  # They share a facet
-    
-    return False  # No shared facet found
+'''faces = permutahedron.faces(1)
+print([f.ambient_V_indices() for f in permutahedron.facets()])
+for f in permutahedron.facets():
+    print("Facet:", f.ambient_V_indices())
+    for v in f.vertices():
+        print(v)
+    print("---------")'''
