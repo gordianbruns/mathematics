@@ -1,9 +1,14 @@
 from sage.graphs.independent_sets import IndependentSets
+from sage.geometry.polyhedron.combinatorial_polyhedron.conversions \
+         import incidence_matrix_to_bit_rep_of_facets
 
-n = 4
+
+n = 3
 permutations = Permutations(n)
 permutahedron = polytopes.permutahedron(n)
 print(permutahedron)
+
+#print(face_list.matrix())
 #for perm in permutations:
 #    print(perm)
 
@@ -96,11 +101,11 @@ def get_degree(perm):
             summation += 1
     return summation
 
-#degree = get_degree([1, 2, 3, 4, 5, 6, 7])
-#print(degree)
+p = [1, 2, 3, 4, 5]
+degree = get_degree(p)
+print("Degree of", p, ":", degree)
 
 def share_facet4(perm1, perm2):
-    # TODO: I believe facets() returns the whole polytope as well
     for f in permutahedron.facets():
         if perm1 in f.vertices() and perm2 in f.vertices():
             return True
@@ -115,7 +120,7 @@ def create_graph(vertex_set):
                 G.add_edge(vertex_set[i], vertex_set[j])
     return G
 
-G = create_graph(permutations)
+G = create_graph(permutahedron.vertices())
 #print(G)
 
 def get_independence_number(graph):
@@ -131,9 +136,9 @@ def get_independence_number(graph):
     return ind_num
 
 ind_num = get_independence_number(G)
-print(ind_num)
+print("Independence number:", ind_num)
 
-#G_bar = G.complement()
+G_bar = G.complement()
 '''print("Adjacency List of G:")
 for v in G.vertices():
     print(f"{v}: {G.neighbors(v)}")'''
@@ -142,7 +147,7 @@ for v in G.vertices():
 for v in G_bar.vertices():
     print(f"{v}: {G_bar.neighbors(v)}")'''
 
-#print(get_independence_number(G_bar))
+print("Clique number:", get_independence_number(G_bar))
 
 #for x in permutahedron.vertices():
 #    print(x)
