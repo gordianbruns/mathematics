@@ -1,12 +1,9 @@
 from sage.graphs.independent_sets import IndependentSets
-from sage.geometry.polyhedron.combinatorial_polyhedron.conversions \
-         import incidence_matrix_to_bit_rep_of_facets
 
-
-n = 3
+n = 4
 permutations = Permutations(n)
 permutahedron = polytopes.permutahedron(n)
-print(permutahedron)
+print("Permutahedron with n =", n)
 
 #print(face_list.matrix())
 #for perm in permutations:
@@ -30,12 +27,12 @@ def get_faces(permutation):
         face = []
     return faces
 
-perm1 = [1, 3, 5, 2, 4]
+'''perm1 = [1, 3, 5, 2, 4]
 perm2 = [1, 4, 2, 5, 3]
 positions1 = get_faces(perm1)
 print(positions1)
 positions2 = get_faces(perm2)
-print(positions2)
+print(positions2)'''
 
 def share_facet(permutation1, permutation2):
     faces1 = get_faces(permutation1)
@@ -45,7 +42,7 @@ def share_facet(permutation1, permutation2):
             return True
     return False
 
-print(share_facet(perm1, perm2))
+#print(share_facet(perm1, perm2))
 
 #TODO: Fix share_facet2
 def share_facet2(permutation1, permutation2):
@@ -72,9 +69,9 @@ def share_facet2(permutation1, permutation2):
         perm2_minimum2 = len(permutation2)
     return False
 
-perm1 = [1, 2, 3]
+'''perm1 = [1, 2, 3]
 perm2 = [2, 1, 3]
-print(share_facet2(perm1, perm2))
+print(share_facet2(perm1, perm2))'''
 
 # computes the degree of each permutation where they are adjacent if they do not share a facet
 def get_degrees(permutations):
@@ -101,9 +98,9 @@ def get_degree(perm):
             summation += 1
     return summation
 
-p = [1, 2, 3, 4, 5]
+'''p = [1, 2, 3, 4, 5]
 degree = get_degree(p)
-print("Degree of", p, ":", degree)
+print("Degree of", p, ":", degree)'''
 
 def share_facet4(perm1, perm2):
     for f in permutahedron.facets():
@@ -132,30 +129,14 @@ def get_independence_number(graph):
         if len(x) > ind_num:
             ind_num = len(x)
             y = x
-    print('Independent set:', y)
+    print('Maximal set:', y)
     return ind_num
 
 ind_num = get_independence_number(G)
 print("Independence number:", ind_num)
 
 G_bar = G.complement()
-'''print("Adjacency List of G:")
-for v in G.vertices():
-    print(f"{v}: {G.neighbors(v)}")'''
-
-'''print("Adjacency List of G_bar:")
-for v in G_bar.vertices():
-    print(f"{v}: {G_bar.neighbors(v)}")'''
 
 print("Clique number:", get_independence_number(G_bar))
 
-#for x in permutahedron.vertices():
-#    print(x)
-
-'''faces = permutahedron.faces(1)
-print([f.ambient_V_indices() for f in permutahedron.facets()])
-for f in permutahedron.facets():
-    print("Facet:", f.ambient_V_indices())
-    for v in f.vertices():
-        print(v)
-    print("---------")'''
+print("Eigenvalues:", G.spectrum())
