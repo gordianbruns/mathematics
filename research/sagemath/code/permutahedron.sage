@@ -140,3 +140,17 @@ G_bar = G.complement()
 print("Clique number:", get_independence_number(G_bar))
 
 print("Eigenvalues:", G.spectrum())
+
+def get_maximal_independent_sets(graph):
+    Im = IndependentSets(graph, maximal=True)
+    max_ind_sets = []
+    for x in Im:
+        if len(x) == ind_num:
+            max_ind_sets.append(x)
+    return max_ind_sets
+
+max_ind_sets = get_maximal_independent_sets(G)
+counter = 1
+for ind in max_ind_sets:
+    print("Independent set no.", counter, ":", ind)
+    counter += 1
