@@ -1,6 +1,6 @@
 from sage.graphs.independent_sets import IndependentSets
 
-n = 4
+n = 3
 permutations = Permutations(n)
 permutahedron = polytopes.permutahedron(n)
 print("Permutahedron with n =", n)
